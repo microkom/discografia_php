@@ -16,16 +16,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	/*$ok = true;
 	$dsn->beginTransaction();*/
-	
+
 	$stmt = $dbh->prepare("INSERT INTO album (titulo,discografica,formato,fechaLanzamiento,fechaCompra,precio) VALUES (?,?,?,?,?,?)");
-	
+
 	$tituloAlbum = $_POST['titulo'];
 	$discografica = $_POST['discografica'];
 	$formato = $_POST['formato'];
 	$flanzamiento = $_POST['flanzamiento'];
 	$fcompra = $_POST['fcompra'];
 	$precio = $_POST['precio'];
-	
+
 	$stmt->bindValue(1, $tituloAlbum);
 	$stmt->bindValue(2, $discografica);
 	$stmt->bindValue(3, $formato);
@@ -33,15 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$stmt->bindValue(5, $fcompra);
 	$stmt->bindValue(6, $precio);
 	$stmt->execute();
-	/*if($stmt->execute()==0)
-		$ok = false;
-	
-	if($ok)
-		print "Ok";
-	else
-		print "Error en la transacción";
-	*/
-	/*echo $dbh->lastInsertId();*/
+
 }
 
 
@@ -71,13 +63,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				<label for="discografica">Discográfica</label>
 				<input type="text" name="discografica"  value="<?php if(isset($discografica)) print $discografica;?>"><br><br>
 				<label for="formato">Formato</label>
-				<select name="formato" >
-					<option  value="<?php if(isset($formato)) print $formato;?>"><?php if(isset($formato)) print $formato;?></option>
-					<option value="vinilo">Vinilo</option>
-					<option value="cd">CD</option>
-					<option value="dvd">DVD</option>
-					<option value="Mp3">Mp3</option>
+				
+				<select name="formato" ><br><br>
+
+					<?php
+					//para mostrar los generos en como opciones
+					$dwes = new PDO('mysql:host=localhost;dbname=discografia', 'root', '' );
+					$resultado = $dwes->query('SHOW COLUMNS from album like "formato";');
+
+					while ($registro = $resultado->fetch()) {
+						$genero = $registro['Type'];  ///generos traidos de la base de datos
+						$otro = explode(',',$genero);
+					}
+					$dwes = null;  //terminar la conexión con la base de datos
+
+					$otro = str_replace("enum(","",$otro);
+					$otro = str_replace(")","",$otro);
+					$otro = str_replace("'","",$otro);
+
+					//mostrar las opciones de los generos como opción
+					foreach($otro as $value){
+						print '<option value="'.$value.'">'.$value.'</option>';
+					}
+
+					?>
+
 				</select>
+
 				<br><br>
 				<label for="flanzamiento">Fecha Lanzamiento</label>
 				<input type="date" name="flanzamiento"  value="<?php if(isset($flanzamiento)) print $flanzamiento;?>"><br><br>
@@ -87,9 +99,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 				<label for="precio">Precio</label>
 				<input type="number" name="precio"  value="<?php if(isset($precio)) print $precio;?>"><br><br>
-
-
-
 
 				<br><br>
 				<input type="submit" value="Guardar">

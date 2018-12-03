@@ -14,10 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		echo $e->getMessage();
 	}
 
-	/*$ok = true;
-	$dsn->beginTransaction();*/
-
-
+	
 	$titulo  = $_POST['titulo'];
 	$album = $_POST['album'];
 	$posicion = $_POST['posicion'];
@@ -35,15 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$stmt->execute();
 
 	$dsn = null;
-	/*if($stmt->execute()==0)
-		$ok = false;
 
-	if($ok)
-		print "Ok";
-	else
-		print "Error en la transacción";
-	*/
-	/*echo $dbh->lastInsertId();*/
 }
 
 
@@ -63,27 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	</head>
 	<body>
 
-<?php		
 
-				//PARA MOSTRAR EL ALBUM DESDE LA BASE DE DATOS
-
-				$dwes = new PDO('mysql:host=localhost;dbname=discografia', 'root', '' );
-				//$dwes = new PDO('mysql:host=localhost;dbname=discografia', 'root', '' );
-				$resultado = $dwes->query('SELECT * FROM cancion;');
-
-				while ($registro = $resultado->fetch()) {
-					$resultado2 = $dwes->query('SELECT distinct titulo FROM album');
-					$registro2 = $resultado2->fetch();
-					$album = $registro2['titulo'];
-					print '<ption value="'.$album.'">'.$album.'</option>';
-					var_dump($album);
-				}
-
-				
-
-				$dwes = null;
-
-				?>
 		<form action="<?= $_SERVER["PHP_SELF"];?>" method="post" >
 
 
@@ -93,7 +62,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 			<select name="album">
-				
+
+				<?php		
+
+				//PARA MOSTRAR EL ALBUM DESDE LA BASE DE DATOS
+
+				$dwes = new PDO('mysql:host=localhost;dbname=discografia', 'root', '' );
+				$resultado = $dwes->query('SELECT * FROM album;');
+
+				while ($res1 = $resultado->fetch()) {
+					print '<option value="'.$res1[0].'">'.$res1[1].'</option>';
+				}
+
+				$dwes = null;
+
+				?>
+
 			</select>
 
 			<br><br>
@@ -114,13 +98,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					$genero = $registro['Type'];  ///generos traidos de la base de datos
 					$otro = explode(',',$genero);
 				}
-				$dwes = null;
+				$dwes = null;  //terminar la conexión con la base de datos
 
 				$otro = str_replace("enum(","",$otro);
 				$otro = str_replace(")","",$otro);
 				$otro = str_replace("'","",$otro);
 
-
+				//mostrar las opciones de los generos como opción
 				foreach($otro as $value){
 					print '<option value="'.$value.'">'.$value.'</option>';
 				}
@@ -173,7 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$dwes = null;
 
 		?>
-		<a href="disconuevo.php">Discografia</a>
+		<a href="disconuevo.php">Disco Nuevo</a>
 		<a href="index.php">HOME</a>
 	</body>
 </html>

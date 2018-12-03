@@ -26,16 +26,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	/*$ok = true;
 	$dsn->beginTransaction();*/
-	
+
 	$stmt = $dbh->prepare("INSERT INTO album (titulo,discografica,formato,fechaLanzamiento,fechaCompra,precio) VALUES (?,?,?,?,?,?)");
-	
+
 	$tituloAlbum = $_POST['titulo'];
 	$discografica = $_POST['discografica'];
 	$formato = $_POST['formato'];
 	$flanzamiento = $_POST['flanzamiento'];
 	$fcompra = $_POST['fcompra'];
 	$precio = $_POST['precio'];
-	
+
 	$stmt->bindValue(1, $tituloAlbum);
 	$stmt->bindValue(2, $discografica);
 	$stmt->bindValue(3, $formato);
@@ -43,15 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$stmt->bindValue(5, $fcompra);
 	$stmt->bindValue(6, $precio);
 	$stmt->execute();
-	/*if($stmt->execute()==0)
-		$ok = false;
-	
-	if($ok)
-		print "Ok";
-	else
-		print "Error en la transacción";
-	*/
-	/*echo $dbh->lastInsertId();*/
+
 }
 
 
@@ -70,13 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		</style>
 	</head>
 	<body>
-
-		
-
 		<?php		
-
-
-
 
 		$dwes = new PDO('mysql:host=localhost;dbname=discografia', 'root', '' );
 		//$dwes = new PDO('mysql:host=localhost;dbname=discografia', 'root', '' );
@@ -104,12 +90,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		}
 
 		print "</div>";
-
-		//$dwes->close();
+		$dwes =null;
 
 		?>
-		
-		
+
+
 		<a href="disconuevo.php">Disco nuevo</a>
 		<a href="cancionnueva.php">Canción nueva</a>
 	</body>
