@@ -43,6 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		<meta charset="utf-8">
 		<title>Canciones</title>
 		<style>
+			section{margin: auto;width: 600px;}
+
 			label{padding: 8px;}
 			.table{display: table;	border-collapse: collapse;}
 			.table div{display: table-row;}
@@ -52,11 +54,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	</head>
 	<body>
 
+		<section>
 
 		<form action="<?= $_SERVER["PHP_SELF"];?>" method="post" >
+			<fieldset>
+				<legend>Canción</legend>
 
-
-			<h3>Canción</h3>
 			<label for="titulo">Título</label>		<input type="text" name="titulo"><br><br>
 			<label for="album">Album</label>
 
@@ -110,10 +113,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				}
 
 				?>
-
+	
 			</select>
 			<br><br>
 			<input type="submit" value="Guardar">
+			</fieldset>
 		</form>
 
 
@@ -121,6 +125,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
+
+// muestra todos las canciones de todos los discos en la pantalla principal
+/*
 
 		$dwes = new PDO('mysql:host=localhost;dbname=discografia', 'root', '' );
 		//$dwes = new PDO('mysql:host=localhost;dbname=discografia', 'root', '' );
@@ -139,10 +146,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 			$resultado2 = $dwes->query('SELECT titulo FROM album where codigo='.$registro['album']);
 			$registro2 = $resultado2->fetch();
+			
 			$album = $registro2['titulo'];
 
 			$titulo = $registro['titulo'];
-			/*$album = $registro['album'];*/
+		
 			$posicion = $registro['posicion'];
 			$duracion = $registro['duracion'];
 			$genero = $registro['genero'];
@@ -155,9 +163,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		print "</div>";
 
 		$dwes = null;
+*/
 
 		?>
 		<a href="disconuevo.php">Disco Nuevo</a>
 		<a href="index.php">HOME</a>
+		<a href="canciones.php">Búsqueda</a>
+		</section>
 	</body>
 </html>

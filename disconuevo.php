@@ -14,9 +14,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		echo $e->getMessage();
 	}
 
-	/*$ok = true;
-	$dsn->beginTransaction();*/
-
 	$stmt = $dbh->prepare("INSERT INTO album (titulo,discografica,formato,fechaLanzamiento,fechaCompra,precio) VALUES (?,?,?,?,?,?)");
 
 	$tituloAlbum = $_POST['titulo'];
@@ -44,6 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		<meta charset="UTF-8">
 		<title>Discografia</title>
 		<style>
+			section{margin: auto;width: 600px;}
+			
 			label{padding: 8px;}
 			.table{display: table;	border-collapse: collapse;}
 			.table div{display: table-row;}
@@ -53,6 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	</head>
 	<body>
 
+<section>
 		<form action="<?= $_SERVER["PHP_SELF"];?>" method="post" >
 			<fieldset>
 				<legend>Disco</legend>
@@ -107,5 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 		<a href="index.php">HOME</a>
 		<a href="cancionnueva.php">Cancion nueva</a>
+		<a href="canciones.php">Búsqueda</a>
+		</section>
 	</body>
 </html>
